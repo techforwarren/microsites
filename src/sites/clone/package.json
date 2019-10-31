@@ -1,0 +1,11 @@
+{
+  "name": "@tfw/microsites",
+  "private": true,
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "../../../node_modules/.bin/next build",
+    "start:dev": "../../../node_modules/.bin/next"
+  }
+}
