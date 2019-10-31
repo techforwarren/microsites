@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+const exec = require('../packages/exec')
+const { join } = require('path')
+
+require('yargs') // eslint-disable-line
+  .command('clone [site]', 'clone a site',
+    (yargs) => {
+
+      yargs
+        .positional('site', {
+          describe: 'the name of the new site',
+          default: 'clone-' + Date.now()
+        })
+
+    },
+    (argv) => {
+      if (argv.verbose) console.info(`cloning site: ${argv.site}`)
+
+      const clonePath = join(__dirname, '..', 'src', 'sites', 'clone')
+      const sitePath = join(__dirname, '..', 'src', 'sites', argv.site)
+
+      // Don't copy cache directories
+      exec(`rm -rf ${join(clonePath, '.linaria-cache')}`)
+      exec(`rm -rf ${join(clonePath, '.next')}`)
+
+      // Clone the site
+      exec(`cp -r ${clonePath} ${sitePath}`)
+    }
+  )
+  .command('start [site]', 'start a site',
+    (yargs) => {
+
+      yargs
+        .positional('site', {
+          describe: 'the site to start',
+          default: 'clone'
+        })
+
+    },
+    (argv) => {
+      if (argv.verbose) console.info(`starting site: ${argv.site}`)
+
+      const sitePath = join(__dirname, '..', 'src', 'sites', argv.site)
+
+      exec(`cd ${sitePath} && npm run start:dev`)
+    })
+  .option('verbose', {
+    alias: 'v',
+    type: 'boolean',
+    description: 'Run with verbose logging'
+  })
+  .help()
+  .argv

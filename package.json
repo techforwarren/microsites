@@ -22,5 +22,8 @@
     "react-dom": "^16.11.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "yargs": "^14.2.0"
   }
 }
